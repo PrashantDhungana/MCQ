@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Question;
 use App\Models\Answer;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+
 class StudentController extends Controller
 {
     /**
@@ -41,11 +43,15 @@ class StudentController extends Controller
         $totalMarks = 0;
         foreach ($request->except('_token') as $key => $ans) 
         {
-            $rightId = Question::findOrFail($key)->right_id;
+            //$key=questionid , $ans = answerid
+
+            $rightId = DB::table('question_answer')
+            ->where('question_id', '=', $key)
+            ->first()->answer_id;
+
             if($ans == $rightId )
                 $totalMarks++;
         }
-
         //Put the total marks in the DB
         $student = User::find(\Auth::user()->id);
         $student->total_marks = $totalMarks;

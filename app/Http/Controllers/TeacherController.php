@@ -7,6 +7,7 @@ use App\Models\Question;
 use App\Models\Answer;
 use App\Models\Student;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
 {
@@ -40,6 +41,43 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->ans[$request->correct-1]);
+        DB::beginTransaction();
+
+        try {
+            $question = new Question;
+            $question->title = $request->question;
+            $question->save();
+        
+            //Get last Id of inserted Question
+            $lastId = $question->id;
+
+            //Insert to Answers table 
+            $answers = $request->ans;
+            foreach($answers as $answer){
+                $ans = new Answer;
+                $ans->question_id = $lastId;
+                $ans->answer = $answer;
+                $ans->save();
+                if($answer == $answers[$request->correct-1])
+                    $lastAnsid = $ans->id;
+            }
+
+            DB::table('question_answer')->insert([
+                'question_id' => $lastId,
+                'answer_id' => $lastAnsid,
+            ]);
+
+            DB::commit();
+            // all good
+        } catch (\Exception $e) {
+            DB::rollback();
+            // something went wrong
+            return redirect('/home');
+        }
+
+        return redirect('/teacher/questions/create')->with('success','New Question Added successfully');
+
 
     }
 

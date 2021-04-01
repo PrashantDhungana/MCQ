@@ -57,6 +57,15 @@ $( document ).ready(function() {
     }
     });
 
+//Check if Student changes the tab
+    // document.addEventListener("visibilitychange", function() {
+    // if (document.hidden){
+    //     window.location = "http://google.com";
+    // }
+    
+// });
+
+
 });
 </script>
 </body>

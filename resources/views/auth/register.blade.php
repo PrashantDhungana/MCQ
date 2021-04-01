@@ -1,6 +1,8 @@
+
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -53,7 +55,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="form-group row">    
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
 
                             <div class="col-md-6">
@@ -61,6 +63,30 @@
                             </div>
                         </div>
 
+                        <div class="form-check">
+                        @error('role')
+                                    <span class="invalid-feedback">
+                                        <strong>Invalid Role Chosen</strong>
+                                    </span>
+                        @enderror
+                        <input class="form-check-input" type="radio" name="role" value="2" required>
+                        <label class="form-check-label">
+                            Student
+                        </label>
+                        </div>
+
+                        <div class="form-check">
+                        <input class="form-check-input" type="radio" name="role" value="1">
+                        <label class="form-check-label">
+                            Teacher
+                        </label>
+                        </div>
+                        <div class="form-check">
+                        <input class="form-check-input" type="radio" name="role" value="3">
+                        <label class="form-check-label">
+                            Teacherassssssss
+                        </label>
+                        </div>
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
